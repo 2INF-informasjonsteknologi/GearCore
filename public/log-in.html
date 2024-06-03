@@ -3,17 +3,16 @@
 
     <head>
 
-        <title>GearCore - Innlandet fylkeskommune</title>
+        <title>Logg inn - GearCore - Innlandet fylkeskommune</title>
 
         <link rel="stylesheet" href="css/a.css">
-        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/form.css">
 
         <link rel="icon" href="svg/logo-square.svg">
 
-        <script src="index.js"></script>
+        <script src="js/log-in.js"></script>
         
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="GearCore er Innlandet fylkeskommunes leverandør av IT-tjenester innen utlån.">
 
     </head>
 
@@ -46,7 +45,7 @@
                     <a href="inventory">
                         Se inventar
                     </a>
-                    <a href="login">
+                    <a href="log-in">
                         Logg inn
                     </a>
                     <a href="sign-up">
@@ -57,7 +56,13 @@
         </header>
 
         <main>
-            
+            <div class="container">
+                <input _key="email" type="text" placeholder="Skriv inn e-post">
+                <input _key="password" type="password" placeholder="Skriv inn passord">
+                <button>
+                    Logg inn
+                </button>
+            </div>
         </main>
 
         <footer>

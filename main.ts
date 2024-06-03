@@ -8,8 +8,7 @@ import express, {
 } from "express";
 
 import {
-    IUser,
-    Item
+    IUser
 } from "./models.ts";
 
 import mongoose from "mongoose";
@@ -110,5 +109,6 @@ app.all("*", (_, res: Res): void => {
     catch{
         return console.log("Could not connect to MongoDB database!");
     }
+
     app.listen(4000, "0.0.0.0", (): void => console.log("Server online!"));
 })();
