@@ -1,0 +1,2 @@
+ExpressSessionSecret = ""
+MongooseConnectURI = ""
