@@ -24,6 +24,7 @@ app.get("/session", (req: Req, res: Res): Res => res.status(200).send(req.sessio
 // Routing
 
 app.use("/user", require("./api/user.ts"));
+app.use("/item", require("./api/item.ts"));
 
 
 

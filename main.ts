@@ -40,6 +40,7 @@ app.use(session({
 }));
 
 app.use(mw.polishRequest);
+app.use(mw.refreshUser);
 
 
 
@@ -52,7 +53,7 @@ app.use("/api", require("./routes/api.ts"));
 // Interface expansion
 
 declare module "express-session"{
-    export interface SessionData{
+    interface SessionData{
         user?: IUser
     }
 }
@@ -84,6 +85,10 @@ app.get("*", (req: Req, res: Res, next: Next): void | Res => {
 
     if(fs.existsSync(path.join(__dirname, "public", "not-found.html"))){
         return res.status(200).sendFile(path.join(__dirname, "public", "not-found.html"));
+    }
+
+    if(fs.existsSync(path.join(__dirname, "public", "index.html"))){
+        return res.redirect("/");
     }
 
     next();

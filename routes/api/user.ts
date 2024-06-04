@@ -96,7 +96,7 @@ app.post("/sign-up", mw.requireBody("name", "email", "password"), async (req: Re
     const user: Document<unknown, {}, IUser> & IUser = new User({
         id: await getId(),
         name: body.name,
-        email: body.email,
+        email: body.email.toLowerCase(),
         password: await bcrypt.hash(body.password, 13),
         items: []
     });
@@ -114,7 +114,7 @@ app.post("/sign-up", mw.requireBody("name", "email", "password"), async (req: Re
     });
 });
 
-app.get("/log-out", (req: Req, res: Res): void => {
+app.get("/log-out", mw.requireLogin, (req: Req, res: Res): void => {
     req.session.user = null;
 
     res.status(200).send({

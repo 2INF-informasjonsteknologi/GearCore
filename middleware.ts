@@ -14,6 +14,10 @@ import {
     IItem
 } from "./models";
 
+import {
+    Document
+} from "mongoose";
+
 
 
 // Functions
@@ -41,6 +45,19 @@ function requireBody(...keys: Array<string>): ReqHandler{
     }
 }
 
+function requireLogin(req: Req, res: Res, next: Next): void | Res{
+    if([null, undefined].includes(req.session.user)){
+        return res.status(401).send({
+            code: 401,
+            message: {
+                en: "This action requires a login!",
+                no: "Denne handlingen krever innlogging!"
+            }
+        });
+    }
+    next();
+}
+
 function sanitize<T>(object: T): any{
     if(object instanceof User){
         const result: IUser = object.toJSON();
@@ -59,6 +76,28 @@ function sanitize<T>(object: T): any{
     return null;
 }
 
+async function refreshUser(req: Req, res: Res, next: Next): Promise<void>{
+    if(![null, undefined].includes(req.session.user)) return next();
+
+    if(!req.session.user?.hasOwnProperty("id")){
+        delete req.session.user;
+        return next();
+    }
+
+    const {id} = req.session.user;
+
+    if(!(await User.exists({id}))){
+        delete req.session.user;
+        return next();
+    }
+
+    const user: Document<unknown, {}, IUser> & IUser = await User.findOne({id}) || new User();
+
+    req.session.user = sanitize(user);
+
+    next();
+}
+
 
 
 // Export
@@ -66,5 +105,7 @@ function sanitize<T>(object: T): any{
 export default {
     polishRequest,
     requireBody,
-    sanitize
+    requireLogin,
+    sanitize,
+    refreshUser
 };

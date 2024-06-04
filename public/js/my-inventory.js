@@ -117,13 +117,12 @@ class Item{
         // Elements
         const main = document.querySelector("#item-tpl").cloneNode(true);
         const h1 = main.querySelector("h1");
-        const h2 = main.querySelector("h2");
         const p = main.querySelectorAll("p[_label]:has(span)");
         const button = main.querySelector("button");
 
 
         // Setting variables
-        this.#elements = {main, h1, h2, p, button};
+        this.#elements = {main, h1, p, button};
         this.#id = id;
         this.#producer = body.producer;
         this.#description = description;
@@ -135,19 +134,13 @@ class Item{
 
         // Setting elements
         this.#elements.h1.innerText = description;
-        this.#elements.h2.innerText = available
-            ? this.#elements.h2.getAttribute("_available") || "ERROR"
-            : this.#elements.h2.getAttribute("_busy") || "ERROR"
-        this.#elements.h2.style.color = available
-            ? "green"
-            : "red";
         this.#elements.p.forEach(i => {
             if(body.hasOwnProperty(i.getAttribute("_label"))){
                 i.querySelector("span").innerText = body[i.getAttribute("_label")];
             }
         });
         this.#elements.button.addEventListener("click", async () => {
-            const response = await fetch(`/api/item/borrow/${this.#id}`);
+            const response = await fetch(`/api/item/return/${this.#id}`);
             if(response.ok) return window.location.reload();
             const data = await response.json();
             alert(data.message.no);
@@ -183,7 +176,7 @@ window.addEventListener("load", async () => {
 // Functions
 
 async function fetchItems(){
-    const response = await fetch("/api/item/@all");
+    const response = await fetch("/api/item/@all-mine");
 
     if(!response.ok) return window.location = "/log-in";
 
