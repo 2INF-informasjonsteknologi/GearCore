@@ -44,14 +44,14 @@ function requireBody(...keys: Array<string>): ReqHandler{
 function sanitize<T>(object: T): any{
     if(object instanceof User){
         const result: IUser = object.toJSON();
-        ["password", "__v"].forEach((i: string): void => {
+        ["_id", "password", "__v"].forEach((i: string): void => {
             if(result.hasOwnProperty(i)) delete result[i];
         });
         return result;
     }
     else if(object instanceof Item){
         const result: IItem = object.toJSON();
-        ["__v"].forEach((i: string): void => {
+        ["_id", "__v"].forEach((i: string): void => {
             if(result.hasOwnProperty(i)) delete result[i];
         });
         return result;

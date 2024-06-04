@@ -3,15 +3,15 @@
 
     <head>
 
-        <title>Logg inn - GearCore - Innlandet fylkeskommune</title>
+        <title>Inventar - GearCore - Innlandet fylkeskommune</title>
 
         <link rel="stylesheet" href="css/a.css">
-        <link rel="stylesheet" href="css/form.css">
+        <link rel="stylesheet" href="css/inventory.css">
 
         <link rel="icon" href="svg/logo-square.svg">
 
         <script src="js/a.js"></script>
-        <script src="js/log-in.js"></script>
+        <script src="js/inventory.js"></script>
         
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -103,19 +103,24 @@
         </div>
 
         <main>
-            <div id="container">
-                <img alt="Innlandet fylkeskommune" src="svg/logo-landscape.svg">
-                <input _key="email" type="email" placeholder="Skriv inn e-post">
-                <input _key="password" type="password" placeholder="Skriv inn passord">
-                <p id="output" _default="En ukjent feil skjedde!"></p>
-                <button id="submit">
-                    Logg inn
-                </button>
-                <a href="sign-up">
-                    Har du ikke konto?
-                    <br>
-                    Lag en her!
-                </a>
+            <div class="content">
+                <div class="head">
+                    <input type="text" placeholder="Søk etter innhold">
+                    <hr>
+                    <div id="categories">
+                        <div id="category-template" class="category">
+                            <h1>
+                                Bærbare maskiner
+                            </h1>
+                            <input type="checkbox">
+                        </div>
+                    </div>
+                </div>
+                <div id="items">
+                    <div id="item-template" class="item">
+
+                    </div>
+                </div>
             </div>
         </main>
 

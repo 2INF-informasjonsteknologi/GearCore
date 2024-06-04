@@ -18,6 +18,7 @@ import {
 
 import mw from "../../middleware.ts";
 import bcrypt from "bcrypt";
+import crypto from "node:crypto";
 
 
 
@@ -56,7 +57,7 @@ app.post("/log-in", mw.requireBody("email", "password"), async (req: Req, res: R
         });
     }
 
-    req.session.user = mw.sanitize<IUser>(user.toJSON());
+    req.session.user = mw.sanitize(user);
 
     res.status(200).send({
         code: 200,
@@ -93,14 +94,16 @@ app.post("/sign-up", mw.requireBody("name", "email", "password"), async (req: Re
     }
 
     const user: Document<unknown, {}, IUser> & IUser = new User({
+        id: await getId(),
         name: body.name,
         email: body.email,
-        password: await bcrypt.hash(body.password, 13)
+        password: await bcrypt.hash(body.password, 13),
+        items: []
     });
 
     await user.save();
 
-    req.session.user = mw.sanitize<IUser>(user.toJSON());
+    req.session.user = mw.sanitize(user);
 
     res.status(200).send({
         code: 200,
@@ -110,6 +113,28 @@ app.post("/sign-up", mw.requireBody("name", "email", "password"), async (req: Re
         }
     });
 });
+
+app.get("/log-out", (req: Req, res: Res): void => {
+    req.session.user = null;
+
+    res.status(200).send({
+        code: 200,
+        message: {
+            en: "Successfully logged out!",
+            no: "Utlogging vellykket!"
+        }
+    });
+});
+
+
+
+// Functions
+
+async function getId(): Promise<string>{
+    let id: string = crypto.randomBytes(20).toString("hex");
+    while(await User.exists({id})) id = crypto.randomBytes(20).toString("hex");
+    return id;
+}
 
 
 

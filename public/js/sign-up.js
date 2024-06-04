@@ -47,7 +47,7 @@ function container(){
 
 
         // Fetching
-        const response = await fetch("/api/user/log-in", {
+        const response = await fetch("/api/user/sign-up", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

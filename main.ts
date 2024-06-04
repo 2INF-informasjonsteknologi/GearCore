@@ -8,7 +8,8 @@ import express, {
 } from "express";
 
 import {
-    IUser
+    IUser,
+    Item
 } from "./models.ts";
 
 import mongoose from "mongoose";
@@ -51,7 +52,7 @@ app.use("/api", require("./routes/api.ts"));
 // Interface expansion
 
 declare module "express-session"{
-    interface SessionData{
+    export interface SessionData{
         user?: IUser
     }
 }

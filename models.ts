@@ -10,19 +10,23 @@ import mongoose, {
 // Interfaces
 
 export interface IUser{
+    id: string,
     name: string,
     email: string,
-    password?: string
+    password?: string,
+    items: Array<string>
 }
 
 export interface IItem{
+    id: string,
     producer: string,
     description: string,
     specs: string,
     dateOfPurchase: Date,
     price: number,
     lifetime: number,
-    category: string
+    category: string,
+    borrowedBy: string
 }
 
 
@@ -39,21 +43,25 @@ export type MItem = Model<IItem>;
 export const User: MUser = mongoose.model<IUser, MUser>(
     "users",
     new Schema<IUser, MUser>({
+        id: String,
         name: String,
         email: String,
-        password: String
+        password: String,
+        items: [String]
     })
 );
 
 export const Item: MItem = mongoose.model<IItem, MItem>(
     "items",
     new Schema<IItem, MItem>({
+        id: String,
         producer: String,
         description: String,
         specs: String,
         dateOfPurchase: Date,
         price: Number,
         lifetime: Number,
-        category: String
+        category: String,
+        borrowedBy: String
     })
 );

@@ -10,7 +10,7 @@
 
         <link rel="icon" href="svg/logo-square.svg">
 
-        <script src="index.js"></script>
+        <script src="js/a.js"></script>
         
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="GearCore er Innlandet fylkeskommunes leverandør av IT-tjenester innen utlån.">
@@ -20,7 +20,7 @@
     <body>
 
         <header>
-            <section class="upper">
+            <section class="upper" _device="desktop">
                 <div class="buttons">
                     <a href="https://innlandetfylke.no">
                         Innlandet fylkeskommune
@@ -34,27 +34,73 @@
                 </div>
             </section>
             <section class="lower">
-                <div class="logo">
-                    <a href="https://innlandetfylke.no">
+                <div class="logo" _device="desktop">
+                    <a href="/">
                         <img alt="Innlandet fylkeskommune" src="svg/logo-landscape.svg">
                     </a>
                 </div>
                 <div class="buttons">
-                    <a href="/">
+                    <a href="/" _device="desktop">
                         Hjem
                     </a>
-                    <a href="inventory">
+                    <a href="inventory" _device="desktop">
                         Se inventar
                     </a>
-                    <a href="login">
+                    <a href="log-in" _device="desktop" _status="no-account">
                         Logg inn
                     </a>
-                    <a href="sign-up">
+                    <a href="sign-up" _device="desktop" _status="no-account">
                         Lag konto
+                    </a>
+                    <a href="my-inventory" _device="desktop" _status="account">
+                        Mitt inventar
+                    </a>
+                    <a id="logout-button" _device="desktop" _status="account">
+                        Logg ut
+                    </a>
+                    <a id="menu-button" _device="phone">
+                        <svg viewBox="0 0 100 100">
+                            <line x1="10" y1="20" x2="90" y2="20"/>
+                            <line x1="10" y1="50" x2="90" y2="50"/>
+                            <line x1="10" y1="80" x2="90" y2="80"/>
+                        </svg>
                     </a>
                 </div>
             </section>
         </header>
+
+        <div id="menu" class="disabled" _device="phone">
+            <div class="content">
+                <a href="/">
+                    Hjem
+                </a>
+                <a href="inventory">
+                    Se inventar
+                </a>
+                <a href="log-in" _status="no-account">
+                    Logg inn
+                </a>
+                <a href="sign-up" _status="no-account">
+                    Lag konto
+                </a>
+                <a href="my-inventory" _status="account">
+                    Mitt inventar
+                </a>
+                <a id="logout-button" _status="account">
+                    Logg ut
+                </a>
+                <hr>
+                <a href="https://innlandetfylke.no">
+                    Innlandet fylkeskommune
+                </a>
+                <a href="kontakt">
+                    Kontakt oss
+                </a>
+                <a href="https://github.com/LarsSK06/GearCore">
+                    Se kildekoden
+                </a>
+            </div>
+        </div>
 
         <main>
             
@@ -140,6 +186,25 @@
                         Kirkegata 76
                         <br>
                         2609 Lillehammer
+                    </p>
+                </div>
+                <div class="column" _device="phone">
+                    <h1>
+                        Nyttige lenker
+                    </h1>
+                    <hr>
+                    <p>
+                        <a href="https://innlandetfylke.no">
+                            Innlandet fylkeskommune
+                        </a>
+                        <br>
+                        <a href="kontakt">
+                            Kontakt oss
+                        </a>
+                        <br>
+                        <a href="https://github.com/LarsSK06/GearCore">
+                            Se kildekoden
+                        </a>
                     </p>
                 </div>
             </div>
