@@ -29,13 +29,7 @@ class Category{
 
     // Constructor
 
-    constructor(options = {
-        category: String
-    }){
-        // Variables
-        const {category} = options;
-
-
+    constructor(category){
         // Elements
         const main = document.querySelector("#category-tpl").cloneNode(true);
         const h1 = main.querySelector("h1");
@@ -50,8 +44,11 @@ class Category{
         // Setting elements
         this.#elements.h1.innerText = this.#category;
         this.#elements.input.addEventListener("click", sort);
-        document.querySelector("#categories").appendChild(this.#elements.main);
+        
+
+        // Making visible
         this.#elements.main.classList.remove("tpl");
+        document.querySelector("#categories").appendChild(this.#elements.main);
     }
 }
 
@@ -60,39 +57,18 @@ class Item{
 
     #elements;
     #id;
-    #producer;
-    #description;
-    #specs;
-    #price;
-    #category;
-    #available;
+    #body;
 
 
 
     // Properties
 
-    get elements(){
-        return this.#elements;
-    }
-
-    get producer(){
-        return this.#producer;
-    }
-
-    get description(){
-        return this.#description;
-    }
-
-    get specs(){
-        return this.#specs;
-    }
-
-    get price(){
-        return this.#price;
+    get body(){
+        return this.#body;
     }
 
     get category(){
-        return this.#category;
+        return this.#body.category;
     }
 
 
@@ -100,65 +76,87 @@ class Item{
     // Constructor
 
     constructor(options = {
-        description: String,
         id: String,
-        available: Boolean,
-        body: Object
+        body: Object,
+        available: Boolean
     }){
         // Variables
-        const {
-            description,
-            id,
-            available,
-            body
-        } = options;
+        const {id, body, available} = options;
 
 
         // Elements
         const main = document.querySelector("#item-tpl").cloneNode(true);
-        const h1 = main.querySelector("h1");
-        const p = main.querySelectorAll("p[_label]:has(span)");
-        const button = main.querySelector("button");
+        const buttons = main.querySelectorAll("div.buttons button[_action");
+        const status = main.querySelector("h2.status");
 
 
         // Setting variables
-        this.#elements = {main, h1, p, button};
+        this.#elements = {main, buttons, status};
         this.#id = id;
-        this.#producer = body.producer;
-        this.#description = description;
-        this.#specs = body.specs;
-        this.#price = body.price;
-        this.#category = body.category;
-        this.#available = available;
+        this.#body = body;
 
 
         // Setting elements
-        this.#elements.h1.innerText = description;
-        this.#elements.p.forEach(i => {
-            if(body.hasOwnProperty(i.getAttribute("_label"))){
-                i.querySelector("span").innerText = body[i.getAttribute("_label")];
+        Object.keys(this.#body).forEach(i => {
+            if(this.#elements.main.querySelector(`input[_key=\"${i}\"]`)){
+                const input = this.#elements.main.querySelector(`input[_key=\"${i}\"]`);
+                input.value = this.#body[i];
+                let oldValue = "";
+                input.addEventListener("focusout", () => input.value = oldValue);
+                input.addEventListener("focus", () => oldValue = input.value);
+                input.addEventListener("keypress", async event => {
+                    if(event.key != "Enter") return;
+                    let changedBody = {};
+                    changedBody[i] = input.value;
+                    const response = await fetch(`/api/item/${this.#id}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(changedBody)
+                    });
+                    if(!response.ok){
+                        const data = await response.json();
+                        alert(data.message.no || "ERROR");
+                        input.value = oldValue;
+                    }
+                    else window.location.reload();
+                });
             }
         });
-        this.#elements.button.addEventListener("click", async () => {
-            const response = await fetch(`/api/item/return/${this.#id}`);
-            if(response.ok) return window.location.reload();
-            const data = await response.json();
-            alert(data.message.no);
+        this.#elements.status.innerText = available
+            ? this.#elements.status.getAttribute("_available") || "ERROR"
+            : this.#elements.status.getAttribute("_busy") || "ERROR";
+        this.#elements.status.style.color = available ? "green" : "red";
+        this.#elements.buttons.forEach(i => {
+            if(i.getAttribute("_action") == "return"){
+                i.addEventListener("click", async () => {
+                    const response = await fetch(`/api/item/return/${this.#id}`);
+                    if(response.ok) return window.location.reload();
+                    const data = await response.json();
+                    alert(data.message.no || "ERROR");
+                });
+            }
         });
-        document.querySelector("#items").appendChild(this.#elements.main);
+
+
+        // Making visible
         this.#elements.main.classList.remove("tpl");
+        document.querySelector("#items").appendChild(this.#elements.main);
     }
 
 
 
-    // Functions
+    // Function
 
     hide(){
         this.#elements.main.classList.add("disabled");
     }
 
     show(){
-        if(this.#elements.main.classList.contains("disabled")) this.#elements.main.classList.remove("disabled");
+        if(this.#elements.main.classList.contains("disabled")){
+            this.#elements.main.classList.remove("disabled");
+        }
     }
 }
 
@@ -167,42 +165,38 @@ class Item{
 // On load
 
 window.addEventListener("load", async () => {
-    await fetchItems();
-    search();
+    await loadItems();
+    searchField();
 });
 
 
 
 // Functions
 
-async function fetchItems(){
+async function loadItems(){
     const response = await fetch("/api/item/@all-mine");
-
-    if(!response.ok) return window.location = "/log-in";
-
     const data = await response.json();
-
+    
     data.forEach(i => {
-        items.push(new Item({
-            description: i.description,
+        const item = new Item({
             id: i.id,
             body: i,
             available: i.borrowedBy == "null"
-        }));
-
-        if(!categories.some(x => x.category == i.category)) categories.push(new Category({
-            category: i.category
-        }));
+        });
+        items.push(item);
+        if(!categories.some(
+            x => x.category.toLowerCase() == i.category.toLowerCase()
+        )) categories.push(new Category(i.category));
     });
 }
 
-function search(){
+function searchField(){
     // Elements
-    const searchField = document.querySelector("#search-field");
+    const input = document.querySelector("#search-field");
 
 
-    // On change
-    searchField.addEventListener("input", sort);
+    // On input
+    input.addEventListener("input", sort);
 }
 
 
@@ -225,11 +219,11 @@ function sort(){
             categoryQuery.includes(i.category)
             && (
                 (
-                    i.description.toLowerCase().includes(query)
-                    || i.producer.toLowerCase().includes(query)
-                    || i.specs.toLowerCase().includes(query)
-                    || i.price.toString().toLowerCase().includes(query)
-                    || i.category.toLowerCase().includes(query)
+                    i.body.description.toLowerCase().includes(query)
+                    || i.body.producer.toLowerCase().includes(query)
+                    || i.body.specs.toLowerCase().includes(query)
+                    || i.body.price.toString().toLowerCase().includes(query)
+                    || i.body.category.toLowerCase().includes(query)
                 )
                 || query == ""
             )

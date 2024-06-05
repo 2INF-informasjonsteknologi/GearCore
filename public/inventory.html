@@ -110,47 +110,73 @@
                     <div id="categories">
                         <div id="category-tpl" class="category tpl">
                             <h1>
-                                Bærbare maskiner
+                                Category name
                             </h1>
                             <input type="checkbox" checked>
                         </div>
                     </div>
+                    <hr>
+                    <a href="/add-item">
+                        Legg til gjenstand
+                    </a>
                 </div>
                 <div id="items">
                     <div id="item-tpl" class="item tpl">
-                        <h1>
-                            Dell Laptop Higahaga
-                        </h1>
-                        <p _label="producer">
-                            Produsent:
-                            <span></span>
-                        </p>
-                        <p _label="specs">
-                            Spesifikasjoner:
-                            <span></span>
-                        </p>
-                        <p _label="dateOfPurchase">
-                            Innkjøpsdato:
-                            <span></span>
-                        </p>
-                        <p _label="price">
-                            Innkjøpspris:
-                            <span></span>
-                            kr
-                        </p>
-                        <p _label="lifetime">
-                            Forventet levetid:
-                            <span></span>
-                            år
-                        </p>
-                        <p _label="category">
-                            Kategori:
-                            <span></span>
-                        </p>
-                        <h2 _busy="Opptatt" _available="Ledig"></h2>
-                        <button>
-                            Lån ut
-                        </button>
+                        <div class="fields">
+                            <div class="field">
+                                <h1>
+                                    Produsent
+                                </h1>
+                                <input _key="producer" type="text" value="Value">
+                            </div>
+                            <div class="field">
+                                <h1>
+                                    Beskrivelse
+                                </h1>
+                                <input _key="description" type="text" value="Value">
+                            </div>
+                            <div class="field">
+                                <h1>
+                                    Spesifikasjoner
+                                </h1>
+                                <input _key="specs" type="text" value="Value">
+                            </div>
+                            <div class="field">
+                                <h1>
+                                    Innkjøpsdato
+                                </h1>
+                                <input _key="dateOfPurchase" type="text" value="Value">
+                            </div>
+                            <div class="field">
+                                <h1>
+                                    Innkjøpspris
+                                </h1>
+                                <input _key="price" type="text" value="Value">
+                            </div>
+                            <div class="field">
+                                <h1>
+                                    Forventet levetid
+                                </h1>
+                                <input _key="lifetime" type="text" value="Value">
+                            </div>
+                            <div class="field">
+                                <h1>
+                                    Kategori
+                                </h1>
+                                <input _key="category" type="text" value="Value">
+                            </div>
+                            <h2 class="status" _busy="Opptatt" _available="Ledig">
+                                Test
+                            </h2>
+                        </div>
+                        <div class="buttons">
+                            <button _action="delete" _role="admin">
+                                Slett
+                            </button>
+                            <button _action="loan" _status="account">
+                                Lån ut
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

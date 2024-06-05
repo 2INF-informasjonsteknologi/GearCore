@@ -14,7 +14,8 @@ export interface IUser{
     name: string,
     email: string,
     password?: string,
-    items: Array<string>
+    items: Array<string>,
+    admin: boolean
 }
 
 export interface IItem{
@@ -47,7 +48,8 @@ export const User: MUser = mongoose.model<IUser, MUser>(
         name: String,
         email: String,
         password: String,
-        items: [String]
+        items: [String],
+        admin: Boolean
     })
 );
 

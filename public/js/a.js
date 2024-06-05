@@ -30,7 +30,7 @@ async function login(){
 
 
     // Configuring body
-    if(data.hasOwnProperty("user") && ![undefined, null].includes(data.user)) document.body.setAttribute("_loggedIn", "");
+    if(data.hasOwnProperty("user") && ![undefined, null].includes(data.user)) document.body.setAttribute("_loggedIn", data.user.admin ? "admin" : "normal");
 }
 
 function logout(){

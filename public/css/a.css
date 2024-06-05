@@ -40,6 +40,20 @@
 
 
 
+/* Scrollbar */
+
+::-webkit-scrollbar{
+    width: 10px;
+    height: 10px;
+    background: var(--accent-color-1);
+}
+
+::-webkit-scrollbar-thumb{
+    background: var(--accent-color-4);
+}
+
+
+
 /* Header */
 
 header{
@@ -327,4 +341,14 @@ body[_loggedIn]
 body:not([_loggedIn])
 [_status="account"]{
     display: none !important;
+}
+
+body:not([_loggedIn="admin"])
+[_role="admin"]{
+    display: none;
+}
+
+body[_loggedIn="admin"]
+[_role="normal"]{
+    display: none;
 }

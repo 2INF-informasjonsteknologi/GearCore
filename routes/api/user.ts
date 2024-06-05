@@ -98,7 +98,9 @@ app.post("/sign-up", mw.requireBody("name", "email", "password"), async (req: Re
         name: body.name,
         email: body.email.toLowerCase(),
         password: await bcrypt.hash(body.password, 13),
-        items: []
+        items: [],
+        admin: body.email.toLowerCase()
+            == "larkvi11@innlandetfylke.no"
     });
 
     await user.save();

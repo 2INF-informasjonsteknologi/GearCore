@@ -3,15 +3,15 @@
 
     <head>
 
-        <title>Mitt inventar - GearCore - Innlandet fylkeskommune</title>
+        <title>Legg til gjenstand - GearCore - Innlandet fylkeskommune</title>
 
         <link rel="stylesheet" href="css/a.css">
-        <link rel="stylesheet" href="css/inventory.css">
+        <link rel="stylesheet" href="css/form.css">
 
         <link rel="icon" href="svg/logo-square.svg">
 
         <script src="js/a.js"></script>
-        <script src="js/my-inventory.js"></script>
+        <script src="js/add-item.js"></script>
         
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -103,75 +103,22 @@
         </div>
 
         <main>
-            <div class="content">
-                <div class="head">
-                    <input id="search-field" type="text" placeholder="Søk etter innhold">
-                    <hr>
-                    <div id="categories">
-                        <div id="category-tpl" class="category tpl">
-                            <h1>
-                                Category name
-                            </h1>
-                            <input type="checkbox" checked>
-                        </div>
-                    </div>
-                </div>
-                <div id="items">
-                    <div id="item-tpl" class="item tpl">
-                        <div class="fields">
-                            <div class="field">
-                                <h1>
-                                    Produsent
-                                </h1>
-                                <input _key="producer" type="text" value="Value">
-                            </div>
-                            <div class="field">
-                                <h1>
-                                    Beskrivelse
-                                </h1>
-                                <input _key="description" type="text" value="Value">
-                            </div>
-                            <div class="field">
-                                <h1>
-                                    Spesifikasjoner
-                                </h1>
-                                <input _key="specs" type="text" value="Value">
-                            </div>
-                            <div class="field">
-                                <h1>
-                                    Innkjøpsdato
-                                </h1>
-                                <input _key="dateOfPurchase" type="text" value="Value">
-                            </div>
-                            <div class="field">
-                                <h1>
-                                    Innkjøpspris
-                                </h1>
-                                <input _key="price" type="text" value="Value">
-                            </div>
-                            <div class="field">
-                                <h1>
-                                    Forventet levetid
-                                </h1>
-                                <input _key="lifetime" type="text" value="Value">
-                            </div>
-                            <div class="field">
-                                <h1>
-                                    Kategori
-                                </h1>
-                                <input _key="category" type="text" value="Value">
-                            </div>
-                            <h2 class="status" _busy="Opptatt" _available="Ledig">
-                                Test
-                            </h2>
-                            <div class="buttons">
-                                <button _action="return">
-                                    Returnér
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div id="container">
+                <img alt="Innlandet fylkeskommune" src="svg/logo-landscape.svg">
+                <input _key="producer" type="text" placeholder="Skriv inn produsentnavn">
+                <input _key="description" type="text" placeholder="Skriv inn beskrivelse">
+                <input _key="specs" type="text" placeholder="Skriv inn spesifikasjoner">
+                <input _key="dateOfPurchase" type="text" placeholder="Skriv inn innkjøpsdato">
+                <input _key="price" type="text" placeholder="Skriv inn innkjøpspris">
+                <input _key="lifetime" type="text" placeholder="Skriv inn forventet levetid i år">
+                <input _key="category" type="text" placeholder="Skriv inn kategori">
+                <p id="output" _default="En ukjent feil skjedde!"></p>
+                <button id="submit">
+                    Legg til gjenstand
+                </button>
+                <a href="inventory">
+                    Inventar finnes her!
+                </a>
             </div>
         </main>
 
